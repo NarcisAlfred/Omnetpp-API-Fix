@@ -69,9 +69,30 @@ Now add a **NED** file. The content of it can be taken from https://drive.google
 
 Now add a **Initialization** file. The content of it can be taken from https://drive.google.com/file/d/1CxQgxrKarMKXnB9SQ3QJQkxN-8cMUzMY/view?usp=sharing. It uses Bucharest as the default location for the API call.
 
+## Modify Makefile
+
+Run the simulation once so the Makefile gets created.
+After the Makefile has been created, update the following lines:
+>INCLUDE_PATH = -I
+>
+>LIBS = -L
+
+To
+>INCLUDE_PATH = -I.$(OMNETPP_ROOT)/tools/win32.x86_64/mingw64/include
+>
+>LIBS = -L.$(OMNETPP_ROOT)/tools/win32.x86_64/mingw64/lib -lcurl
+
+Also add the following line to the Makefile (preferably before the ifneq instruction)
+>CFLAGS += -DCURL_STATICLIB
+
+These steps ensure that the Makefile has the correct properties to locate the libcurl library.
+You have to do this for every API project, unless you specify the make command to include these lines
+
+## Run the simulation
+
 Now just run the simulation and if it has been configured properly, you should see the response content of the API call like this:
 
-![image](https://github.com/user-attachments/assets/2b06f778-4e5e-4ffd-b48a-e489b3d374a7)
+![image](https://github.com/user-attachments/assets/7c80aba1-3af8-4aaa-9001-778a2261c78b)
 
 # Other API Tasks
 A very important aspect when running other API tasks (which in essence are pretty similar to this one, make sure to disable the SSL verification before calling the API:
